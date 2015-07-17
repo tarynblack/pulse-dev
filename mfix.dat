@@ -1,0 +1,280 @@
+!                                                                               
+!  Generic simulation base for small eruptions and lab. setup                                           
+!                                                                               
+!  
+
+! 
+                          
+! Run-control section                                                           
+                                                                               
+  RUN_NAME              = 'lab'             
+  DESCRIPTION           = 'lab run'          
+  RUN_TYPE              = 'NEW'             
+  UNITS                 = 'SI'
+  TIME                  = 0.0                      !Start time
+  TSTOP                 = 150.0                     !Stop Time
+  DT                    = 1.0E-5                   !Initial time step
+  DT_MAX                = 5.0e-2                  !Max time step
+  ENERGY_EQ             = .TRUE.                 !Solve Energy (Thermal)?
+  DT_MIN                = 1.0e-9                  !Minimum time step before declaring non-convergence
+                 
+  SPECIES_EQ(0)=.FALSE.         !do not solve species eq
+  SPECIES_EQ(1)=.FALSE.
+  SPECIES_EQ(2)=.FALSE.
+  SPECIES_EQ(3)=.FALSE.
+
+
+!MAX_NIT=50
+TOL_RESID=1.0e-2         !Residuals for convergence
+MAX_INLET_VEL_FAC=500.
+
+GRAVITY=9.81
+
+!-------------------------------------------------------------------------------------------------------!
+! Controls for pulsing flow. Make sure all values are specified, and that the number of PARTICLE_INLET_FRAC
+! Equals the number of MMAX. Also, ensure that the values sum to 1.
+
+MASS_INFLUX_TIME=.FALSE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
+
+FREQUENCY=0.1
+MIN_GAS=0.997
+MAX_GAS=1.0
+PARTICLE_INLET_FRAC(1) = 0.5
+PARTICLE_INLET_FRAC(2) = 0.5
+
+
+!Atmospheric parameters
+ATMOSPHERIC=.TRUE.
+TROPOPAUSE=11000.0 ! in meters -- make sure this specification matches temp profile in eosg.f
+
+!-------------------------------------------------------------------------------------------------------!
+
+
+  CALL_USR=.TRUE.
+  GRANULAR_ENERGY=.FALSE.
+  FRICTION=.FALSE.
+
+ DISCRETIZE(1)=2   !Superbee discretization
+ DISCRETIZE(2)=2
+ DISCRETIZE(3)=2
+ DISCRETIZE(4)=2
+ DISCRETIZE(5)=2
+
+WRITE_LEVEL=1     !Control for write-out (1 is standard ascii write out
+
+LES=.FALSE.       !LES Turbulence model
+LEAK=.FALSE.      !Boundary Leak model
+LAGRAN=.FALSE.    !Particle tracking
+
+
+!LAGRAN Specifications-----------------------------------!
+!----------------------------------------------------------------!
+LAGRAN_UPDATE=0.1
+
+BOT_X_LAG=23800.0      !Region to introduce Tracers
+TOP_X_LAG=24200.0
+BOT_Y_LAG=300.0
+TOP_Y_LAG=500.0
+
+U_LAG=0.0          !Passive tracers should be initialized with 0 Vel. at beginning.
+V_LAG=0.0
+
+TIME_START_LAG=0.0  !Time to start introducing tracers
+TIME_STOP_LAG= 0.001    !Time to stop introducting tracers
+
+DT_LAG=5000           !Number of tracers introduced per time step
+
+LAGRANWRITEOUT=0.5   !How often information is given about tracers
+                     !The primary output now can be found in Particles1
+                     !This gives: 1. Time 2. Tracer number 3. Bubble diameter 4. Dissolve Water content 5. Fragmentation condition 6. X position 7. Y Position 8. U velocity 9. V velocity
+LAG_RAD=0.10
+LAG_DENSE=3000.0
+
+
+WATER_RUN=.FALSE.    !Simulation with water boundary (don't use for this model base)
+Mu_gmax=1.0e4        !Maximum Eulerian (gas) phase viscosity
+
+
+  DT_FAC=.8          !Adaptive time stepping
+  DETECT_STALL=.TRUE.                                                                            
+ 
+! Geometry Section                                                              
+                                                                               
+  COORDINATES           = 'cartesian' 
+  XLENGTH               =   20E3                         !width
+  IMAX                  =   100                         !cells in i direction
+  YLENGTH               =   20E3                         !height
+  JMAX                  =   100                         !cells in j direction
+  NO_K                  = .FALSE.                        !Don't use K? (2D)
+  ZLENGTH               =  20E3                     
+  KMAX                  =   100
+                                                                               
+! Gas-phase Section                                                             
+  NMAX(0)=2             !Two gas species
+  MW_g  = 28.47 18.00
+
+  MU_G0=1e-5           !Constant gas viscosity (change if using energy eq.)
+
+
+ 
+! Solids-phase Section                                                          
+  MMAX=2             !Two solid phases
+  NMAX(1)= 1
+  NMAX(2)=1
+  NMAX(3)=1
+  MW_s=48.0
+  MW_s=48.0
+  MW_s=48.0
+
+
+  CLOSE_PACKED(1)=.TRUE.
+  CLOSE_PACKED(2)=.TRUE.
+
+UR_FAC(1)=.1   !relaxation factors for stiff problems
+UR_FAC(2)=.1
+
+  C_f = .57    !Coefficient of Friction
+  RO_s                  = 2700.0 2700.0                     !solids density
+  D_p0                   = 1.1e-5 1.e-5                    !particle diameter     
+
+  e                     = 0.1                           !restitution coefficient
+  Phi                   = 30.0                          !angle of internal friction
+  EP_star               = 0.0                           !void fraction at minimum
+                                                        !  fluidization
+
+
+! Initial Conditions Section                                                    
+  
+    ! 1. initial condition 1                                      
+  IC_X_w(1)             =  0.0                        
+  IC_X_e(1)             =  20E3             
+  IC_Y_s(1)             =  0.0
+  IC_Y_n(1)             =  20E3
+  IC_Z_b(1)		=  0.0
+  IC_Z_t(1)		=  20E3
+
+  IC_EP_g              =  1.0                       !gas volume fraction 
+  IC_P_Star(1)         =  0.0
+  IC_ROP_s(1,1)        =  0.0
+  IC_ROP_s(1,2)=0.0
+  IC_T_g(1)=300.0
+  IC_T_s(1,1)=300.
+  IC_T_s(1,2)=300.
+  IC_X_g(1,1)            =  1.0
+  IC_X_s(1,1,1)          =  1.0
+
+  IC_U_g(1)             =   0.0                          !radial gas velocity
+  IC_V_g(1)             =   0.0                          !axial gas velocity
+  IC_W_g(1)   	 = 0.0
+  IC_U_s(1,1)           =   0.0                          !radial solids velocity 
+  IC_V_s(1,1)           =   0.0                          !axial solids velocity
+  IC_U_s(1,2)           =   0.0                          !radial solids velocity
+  IC_V_s(1,2)           =   0.0                          !axial solids velocity
+  IC_W_s(1,1)		=   0.0
+  IC_W_s(1,2)		=   0.0
+
+  
+  IC_Theta_m(1,1)=30.0
+  IC_Theta_m(1,2)=30.0
+
+
+                                                                                 
+!  Boundary Conditions Section                                                  
+!2. Inflow             
+BC_X_w(2)=9800 
+BC_X_e(2)=10200
+BC_Y_s(2)=0.0
+BC_Y_n(2)=0.0
+BC_Z_b(2)=9800
+BC_Z_t(2)=10200
+BC_T_g(2)=1100.0
+BC_T_s(2,1)=1100.0
+BC_T_s(2,2)=1100.0
+
+
+BC_TYPE(2)= 'MASS_INFLOW'           !Specified mass inflow
+  BC_EP_g(2)              = 0.999         ! gas volume fraction
+  BC_ROP_s(2,1)          = 1.35		! particle volume fraction * effective density
+  BC_ROP_s(2,2)          = 1.35
+
+  BC_X_g(2,1)            =  1.0                        
+  BC_X_s(2,1,1)          =  1.0
+  BC_X_s(2,2,1)          =  1.0
+
+BC_Xw_g(2,1)=1.0
+BC_Xw_g(2,2)=0.0
+
+
+  BC_U_g(2)             =   0.0                         !radial gas velocity
+  BC_V_g(2)             =   184                         !axial gas velocity
+  BC_W_g(2)		=   0.0
+  BC_U_s(2,1)           =   0.0!50.0                        !radial solids velocity
+  BC_V_s(2,1)           =   184                          !axial solids velocity
+  BC_W_s(2,1)		=  0.0
+  BC_U_s(2,2)           =   0.0                         !radial solids velocity
+  BC_V_s(2,2)           =   184                          !axial solids velocity
+  BC_W_s(2,2)		=   0.0
+
+  BC_Theta_m(2,1)       =   100			! Granular temperature
+  BC_Theta_m(2,2)       =   100
+
+  BC_P_g(2)=1.0e5                     !Inlet pressure
+  
+     ! 3. Exit
+
+  BC_X_w(3)             =  0.0                         !top exit
+  BC_X_e(3)             =  20E3                        
+  BC_Y_s(3)             =  20E3
+  BC_Y_n(3)             =  20E3
+  BC_Z_b(3)		=  0.0
+  BC_Z_t(3)		=  20E3
+
+
+  BC_TYPE(3)            =  'P_OUTFLOW'                        !specified pressure outflow
+  BC_P_g(3)             =  1e5                               
+                                                                                
+
+
+
+
+
+
+!                                                                               
+!  Output Control                                                               
+!                  
+  OUT_DT                = 3.0                          !write text file 
+  TIME_INTERVAL		= 3.0			       !same as OUT_DT, used in mfixconst for post-processing -- T. Black, 10 July 2015
+                                                       !  
+  RES_DT                = 200.                          !write binary restart file
+                                                        !  
+  NLOG                  = 100                            !write logfile
+                                                        !every 100 time steps
+  FULL_LOG              = .TRUE.                        !display residuals on screen
+
+!SPX_DT values determine how often SPx files are written. 
+!
+        ! EP_g P_g       U_g  U_s  ROP_s     T_g  X_g
+        !      P_star    V_g  V_s            T_s  X_s     Theta   Scalar 
+        !                W_g  W_s
+  SPX_DT = 100.1  100.1 100.1  100.1  100.1 100.1 100.1  100.1  100.1      
+                                                                                
+
+!Parallel controls (domain decomposition)
+NODESI=4
+NODESJ=4
+NODESK=4
+
+
+
+!  Sweep Direction
+
+LEQ_SWEEP(1) = 'ISIS'
+LEQ_SWEEP(2) = 'ISIS'
+LEQ_SWEEP(3) = 'ISIS'
+LEQ_SWEEP(4) = 'ISIS'
+LEQ_SWEEP(5) = 'ISIS'
+LEQ_SWEEP(6) = 'ISIS'
+LEQ_SWEEP(7) = 'ISIS'
+LEQ_SWEEP(8) = 'ISIS'
+LEQ_SWEEP(9) = 'ISIS'
+
