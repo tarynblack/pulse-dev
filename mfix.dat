@@ -36,8 +36,8 @@ GRAVITY=9.81
 
 MASS_INFLUX_TIME=.TRUE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
 
-FREQUENCY=0.1
-MIN_GAS=0.992
+FREQUENCY=1
+MIN_GAS=0.997
 MAX_GAS=1.0
 PARTICLE_INLET_FRAC(1) = 0.5
 PARTICLE_INLET_FRAC(2) = 0.5
@@ -104,7 +104,7 @@ Mu_gmax=1.0e4        !Maximum Eulerian (gas) phase viscosity
   XLENGTH               =   10E3                         !width
   IMAX                  =   100                         !cells in i direction
   YLENGTH               =   20E3                         !height
-  JMAX                  =   100                         !cells in j direction
+  JMAX                  =   200                         !cells in j direction
   NO_K                  = .FALSE.                        !Don't use K? (2D)
   ZLENGTH               =  10E3                     
   KMAX                  =   100
@@ -193,9 +193,9 @@ BC_T_s(2,2)=1100.0
 
 
 BC_TYPE(2)= 'MASS_INFLOW'           !Specified mass inflow
-  BC_EP_g(2)              = 0.997         ! gas volume fraction
-  BC_ROP_s(2,1)          = 4.05		! particle volume fraction * effective density
-  BC_ROP_s(2,2)          = 4.05
+  BC_EP_g(2)              = 0.999         ! gas volume fraction
+  BC_ROP_s(2,1)          = 1.35		! particle volume fraction * effective density
+  BC_ROP_s(2,2)          = 1.35
 
   BC_X_g(2,1)            =  1.0                        
   BC_X_s(2,1,1)          =  1.0
@@ -206,13 +206,13 @@ BC_Xw_g(2,2)=0.0
 
 
   BC_U_g(2)             =   0.0                         !radial gas velocity
-  BC_V_g(2)             =   111                         !axial gas velocity
+  BC_V_g(2)             =   178                         !axial gas velocity
   BC_W_g(2)		=   0.0
   BC_U_s(2,1)           =   0.0!50.0                        !radial solids velocity
-  BC_V_s(2,1)           =   111                          !axial solids velocity
+  BC_V_s(2,1)           =   178                          !axial solids velocity
   BC_W_s(2,1)		=  0.0
   BC_U_s(2,2)           =   0.0                         !radial solids velocity
-  BC_V_s(2,2)           =   111                          !axial solids velocity
+  BC_V_s(2,2)           =   178                          !axial solids velocity
   BC_W_s(2,2)		=   0.0
 
   BC_Theta_m(2,1)       =   100			! Granular temperature
@@ -242,8 +242,8 @@ BC_Xw_g(2,2)=0.0
 !                                                                               
 !  Output Control                                                               
 !                  
-  OUT_DT                = 10.0                          !write text file 
-  TIME_INTERVAL		= 10.0			       !same as OUT_DT, used in mfixconst for post-processing -- T. Black, 10 July 2015
+  OUT_DT                = 5.0                          !write text file 
+  TIME_INTERVAL		= 5.0			       !same as OUT_DT, used in mfixconst for post-processing -- T. Black, 10 July 2015
                                                        !  
   RES_DT                = 200.                          !write binary restart file
                                                         !  
@@ -260,7 +260,7 @@ BC_Xw_g(2,2)=0.0
                                                                                 
 
 !Parallel controls (domain decomposition)
-NODESI=8
+NODESI=4
 NODESJ=4
 NODESK=4
 
