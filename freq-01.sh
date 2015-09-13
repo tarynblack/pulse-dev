@@ -7,7 +7,9 @@
 #PBS -m abe
 ##PBS -l mem=240gb
 
+##ulimit -s unlimited
 RSH=/usr/bin/rsh
+##MYMPI=/usr/local/packages/mvapich2/1.9/intel-13.2.146
 MYMPI=/usr/local/mvapich2/1.9/intel-13.2.146
 MYDIR=$HOME/data2/FluxHi_07172015/Freq_0-01
 EXE=$MYDIR/plume.exe
