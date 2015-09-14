@@ -102,12 +102,12 @@ Mu_gmax=1.0e4        !Maximum Eulerian (gas) phase viscosity
                                                                                
   COORDINATES           = 'cartesian' 
   XLENGTH               =   10E3                         !width
-  IMAX                  =   100                         !cells in i direction
+  IMAX                  =   500                         !cells in i direction
   YLENGTH               =   20E3                         !height
-  JMAX                  =   200                         !cells in j direction
+  JMAX                  =   1000                         !cells in j direction
   NO_K                  = .FALSE.                        !Don't use K? (2D)
   ZLENGTH               =  10E3                     
-  KMAX                  =   100
+  KMAX                  =   500
                                                                                
 ! Gas-phase Section                                                             
   NMAX(0)=2             !Two gas species
