@@ -12,7 +12,7 @@
   RUN_TYPE              = 'NEW'             
   UNITS                 = 'SI'
   TIME                  = 0.0                      !Start time
-  TSTOP                 = 150.0                     !Stop Time
+  TSTOP                 = 600.0                     !Stop Time
   DT                    = 1.0E-5                   !Initial time step
   DT_MAX                = 5.0e-2                  !Max time step
   ENERGY_EQ             = .TRUE.                 !Solve Energy (Thermal)?
@@ -36,7 +36,7 @@ GRAVITY=9.81
 
 MASS_INFLUX_TIME=.FALSE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
 
-FREQUENCY=0.1
+FREQUENCY=1
 MIN_GAS=0.997
 MAX_GAS=1.0
 PARTICLE_INLET_FRAC(1) = 0.5
@@ -62,9 +62,10 @@ TROPOPAUSE=11000.0 ! in meters -- make sure this specification matches temp prof
 
 WRITE_LEVEL=1     !Control for write-out (1 is standard ascii write out
 
-LES=.FALSE.       !LES Turbulence model
+LES=.TRUE.       !LES Turbulence model
 LEAK=.FALSE.      !Boundary Leak model
 LAGRAN=.FALSE.    !Particle tracking
+L_SCALE0=50.0
 
 
 !LAGRAN Specifications-----------------------------------!
@@ -101,12 +102,12 @@ Mu_gmax=1.0e4        !Maximum Eulerian (gas) phase viscosity
 ! Geometry Section                                                              
                                                                                
   COORDINATES           = 'cartesian' 
-  XLENGTH               =   20E3                         !width
+  XLENGTH               =   10E3                         !width
   IMAX                  =   100                         !cells in i direction
   YLENGTH               =   20E3                         !height
-  JMAX                  =   100                         !cells in j direction
+  JMAX                  =   200                         !cells in j direction
   NO_K                  = .FALSE.                        !Don't use K? (2D)
-  ZLENGTH               =  20E3                     
+  ZLENGTH               =  10E3                     
   KMAX                  =   100
                                                                                
 ! Gas-phase Section                                                             
@@ -147,11 +148,11 @@ UR_FAC(2)=.1
   
     ! 1. initial condition 1                                      
   IC_X_w(1)             =  0.0                        
-  IC_X_e(1)             =  20E3             
+  IC_X_e(1)             =  10E3             
   IC_Y_s(1)             =  0.0
   IC_Y_n(1)             =  20E3
   IC_Z_b(1)		=  0.0
-  IC_Z_t(1)		=  20E3
+  IC_Z_t(1)		=  10E3
 
   IC_EP_g              =  1.0                       !gas volume fraction 
   IC_P_Star(1)         =  0.0
@@ -181,12 +182,12 @@ UR_FAC(2)=.1
                                                                                  
 !  Boundary Conditions Section                                                  
 !2. Inflow             
-BC_X_w(2)=9800 
-BC_X_e(2)=10200
+BC_X_w(2)=4800 
+BC_X_e(2)=5200
 BC_Y_s(2)=0.0
 BC_Y_n(2)=0.0
-BC_Z_b(2)=9800
-BC_Z_t(2)=10200
+BC_Z_b(2)=4800
+BC_Z_t(2)=5200
 BC_T_g(2)=1100.0
 BC_T_s(2,1)=1100.0
 BC_T_s(2,2)=1100.0
@@ -206,13 +207,13 @@ BC_Xw_g(2,2)=0.0
 
 
   BC_U_g(2)             =   0.0                         !radial gas velocity
-  BC_V_g(2)             =   184                         !axial gas velocity
+  BC_V_g(2)             =   186                         !axial gas velocity
   BC_W_g(2)		=   0.0
   BC_U_s(2,1)           =   0.0!50.0                        !radial solids velocity
-  BC_V_s(2,1)           =   184                          !axial solids velocity
+  BC_V_s(2,1)           =   186                          !axial solids velocity
   BC_W_s(2,1)		=  0.0
   BC_U_s(2,2)           =   0.0                         !radial solids velocity
-  BC_V_s(2,2)           =   184                          !axial solids velocity
+  BC_V_s(2,2)           =   186                          !axial solids velocity
   BC_W_s(2,2)		=   0.0
 
   BC_Theta_m(2,1)       =   100			! Granular temperature
@@ -223,11 +224,11 @@ BC_Xw_g(2,2)=0.0
      ! 3. Exit
 
   BC_X_w(3)             =  0.0                         !top exit
-  BC_X_e(3)             =  20E3                        
+  BC_X_e(3)             =  10E3                        
   BC_Y_s(3)             =  20E3
   BC_Y_n(3)             =  20E3
   BC_Z_b(3)		=  0.0
-  BC_Z_t(3)		=  20E3
+  BC_Z_t(3)		=  10E3
 
 
   BC_TYPE(3)            =  'P_OUTFLOW'                        !specified pressure outflow
@@ -242,13 +243,12 @@ BC_Xw_g(2,2)=0.0
 !                                                                               
 !  Output Control                                                               
 !                  
-  OUT_DT                = 3.0                          !write text file 
-  TIME_INTERVAL		= 3.0			       !same as OUT_DT, used in mfixconst for post-processing -- T. Black, 10 July 2015
+  OUT_DT                = 5.0                          !write text file 
+  TIME_INTERVAL		= 5.0			       !same as OUT_DT, used in mfixconst for post-processing -- T. Black, 10 July 2015
                                                        !  
   RES_DT                = 200.                          !write binary restart file
                                                         !  
-  NLOG                  = 100                            !write logfile
-                                                        !every 100 time steps
+  NLOG                  = 100000                        !write logfile every NLOG time steps
   FULL_LOG              = .TRUE.                        !display residuals on screen
 
 !SPX_DT values determine how often SPx files are written. 
@@ -260,9 +260,9 @@ BC_Xw_g(2,2)=0.0
                                                                                 
 
 !Parallel controls (domain decomposition)
-NODESI=4
+NODESI=8
 NODESJ=4
-NODESK=4
+NODESK=8
 
 
 
