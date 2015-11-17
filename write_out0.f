@@ -87,6 +87,36 @@
       DOUBLE PRECISION , EXTERNAL :: LOCATION 
 !-----------------------------------------------
 
+! Output script of constants in mfix.dat for matlab processing
+! T. Black, 17 Nov 2015
+Open(254698, File = 'mfixconst')
+Write(254698,*)'IMAX',IMAX
+Write(254698,*)'JMAX',JMAX
+Write(254698,*)'KMAX',KMAX
+Write(254698,*)'LENGTH',XLENGTH
+Write(254698,*)'HEIGHT',YLENGTH
+Write(254698,*)'WIDTH',ZLENGTH
+Write(254698,*)'RO_S1',RO_s(1)
+Write(254698,*)'RO_S2',RO_s(2)
+Write(254698,*)'RO_S3',RO_s(3)
+Write(254698,*)'NFRAC_S1',PARTICLE_INLET_FRAC(1)
+Write(254698,*)'NFRAC_S2',PARTICLE_INLET_FRAC(2)
+Write(254698,*)'NFRAC_S3',PARTICLE_INLET_FRAC(3)
+Write(254698,*)'PULSING',MASS_INFLUX_TIME
+Write(254698,*)'FREQUENCY',FREQUENCY
+Write(254698,*)'MIN_GAS',MIN_GAS
+Write(254698,*)'MAX_GAS',MAX_GAS
+Write(254698,*)'VENT_RADIUS',SETRADIUS
+Write(254698,*)'TIME_INTERVAL',TIME_INTERVAL
+Write(254698,*)'TSTOP',TSTOP
+Write(254698,*)'ATMOSPHERIC',ATMOSPHERIC
+Write(254698,*)'TROPOPAUSE',TROPOPAUSE
+Write(254698,*)'BC_EPG',BC_EP_g(2)
+Write(254698,*)'BC_PG',BC_P_g(2)
+Write(254698,*)'BC_TG',BC_T_g(2)
+Write(254698,*)'BC_TS1',BC_T_s(2,1)
+Write(254698,*)'BC_TS2',BC_T_s(2,2)
+Write(254698,*)'BC_TS3',BC_T_s(2,3)
 !
 !
 !
