@@ -1,4 +1,4 @@
-#PBS -N F_1P_997_999
+#PBS -N F_1P_998_9999
 #PBS -l nodes=2:ppn=64
 #PBS -l walltime=100:00:00
 #PBS -q atlas-6
@@ -11,7 +11,7 @@
 RSH=/usr/bin/rsh
 ##MYMPI=/usr/local/packages/mvapich2/1.9/intel-13.2.146
 MYMPI=/usr/local/mvapich2/1.9/intel-13.2.146
-MYDIR=$HOME/data2/ProductionRuns/F_1P_997_999
+MYDIR=$HOME/data2/ProductionRuns/F_1P_998_9999
 EXE=$MYDIR/plume.exe
 PATH="$MYMPI/bin:$PATH"; export PATH
 
