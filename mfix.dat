@@ -39,7 +39,7 @@ MASS_INFLUX_TIME=.TRUE.  !If true, pulse according to variables below. If false 
 FREQUENCY=1.0
 
 
-MIN_GAS=0.998
+MIN_GAS=0.996
 MAX_GAS=0.9999
 PARTICLE_INLET_FRAC(1) = 0.24
 PARTICLE_INLET_FRAC(2) = 0.41
