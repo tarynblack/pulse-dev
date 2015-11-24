@@ -145,7 +145,7 @@ if (myPE == PE_IO) WRITE(20014) array1
 
 call gather (T_S(:,3),array1,root)    !//
 call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
-if (myPE == PE_IO) WRITE(20042) array1
+if (myPE == PE_IO) WRITE(20043) array1
 
 
 
@@ -309,7 +309,7 @@ WRITE(20011,100) MU_S(:,2)
 WRITE(20012,100) T_G
 WRITE(20013,100)T_S(:,1)
 WRITE(20014,100) T_S(:,2)
-WRITE(20042,100)T_S(:,3)
+WRITE(20043,100)T_S(:,3)
 WRITE(20015,100) U_G
 WRITE(20016,100) V_G
 WRITE(20017,100) U_S(:,1)
