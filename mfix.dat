@@ -12,7 +12,7 @@
   RUN_TYPE              = 'NEW'             
   UNITS                 = 'SI'
   TIME                  = 0.0                      !Start time
-  TSTOP                 = 400.0                     !Stop Time
+  TSTOP                 = 300.0                     !Stop Time
   DT                    = 1.0E-5                   !Initial time step
   DT_MAX                = 5.0e-2                  !Max time step
   ENERGY_EQ             = .TRUE.                 !Solve Energy (Thermal)?
@@ -36,11 +36,11 @@ GRAVITY=9.81
 
 MASS_INFLUX_TIME=.TRUE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
 
-FREQUENCY=1.0
+FREQUENCY=10.0
 
 
-MIN_GAS=0.996
-MAX_GAS=0.9999
+MIN_GAS=0.997
+MAX_GAS=0.999
 PARTICLE_INLET_FRAC(1) = 0.24
 PARTICLE_INLET_FRAC(2) = 0.41
 PARTICLE_INLET_FRAC(3)=  0.35
