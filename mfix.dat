@@ -36,7 +36,7 @@ GRAVITY=9.81
 
 MASS_INFLUX_TIME=.TRUE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
 
-FREQUENCY=10.0
+FREQUENCY=0.01
 
 
 MIN_GAS=0.996
