@@ -34,7 +34,8 @@ GRAVITY=9.81
 ! Controls for pulsing flow. Make sure all values are specified, and that the number of PARTICLE_INLET_FRAC
 ! Equals the number of MMAX. Also, ensure that the values sum to 1.
 
-MASS_INFLUX_TIME=.TRUE.  !If true, pulse according to variables below. If false use steady conditions in Mass_inflow
+MASS_INFLUX_TIME=.TRUE.  ! Circularize the vent and keep constant ratio of particles.
+PULSED=.FALSE.	! False for steady, True for pulsing.
 
 FREQUENCY=0.01
 
@@ -204,8 +205,8 @@ BC_T_s(2,2)=1100.0
 BC_T_s(2,3)=1100.0
 
 BC_TYPE(2)= 'MASS_INFLOW'           !Specified mass inflow
-  BC_EP_g(2)              = 1.0         ! gas volume fraction
-  BC_ROP_s(2,1)          = 0.0		! particle volume fraction * effective density
+  BC_EP_g(2)              = 0.99876         ! gas volume fraction
+  BC_ROP_s(2,1)          = 0.00124		! particle volume fraction * effective density
   BC_ROP_s(2,2)          = 0.0
   BC_ROP_S(2,3)          = 0.0
 
