@@ -205,10 +205,10 @@ BC_T_s(2,2)=1100.0
 BC_T_s(2,3)=1100.0
 
 BC_TYPE(2)= 'MASS_INFLOW'           !Specified mass inflow
-  BC_EP_g(2)              = 0.99876         ! gas volume fraction
-  BC_ROP_s(2,1)          = 0.00124		! particle volume fraction * effective density
-  BC_ROP_s(2,2)          = 0.0
-  BC_ROP_S(2,3)          = 0.0
+  BC_EP_g(2)              = 0.9981727         ! gas volume fraction
+  BC_ROP_s(2,1)          = 0.00043855		! particle volume fraction * effective density
+  BC_ROP_s(2,2)          = 0.00074919
+  BC_ROP_S(2,3)          = 0.00063956
 
 
   BC_X_g(2,1)            =  1.0                        
