@@ -277,34 +277,48 @@
 
 !       TIME DEPENDENT MASS INFLOW
           IF (MASS_INFLUX_TIME==.TRUE.) THEN
-                ! DO M=1,MMAX
-                ! VEL_INLET=BC_V_g(L)*abs(sin(TIME))
-                ! VOL_G_INLET=BC_EP_g(L)*(1-0.8)*abs(sin(TIME))+0.8
-                ! ROP_INLET(M)=(1-VOL_G_INLET)*RO_s(M)
-                ! MASS_G_INLET=(1+((1-VOL_G_INLET)*RO_s(M)*T_g(IJK)*461.5)/(VOL_G_INLET*P_g(IJK)))**(-1)
-                ! VEL_INLET=((461.5*(T_s(IJK,M)*(1-VOL_G_INLET)+T_g(IJK)*VOL_G_INLET)/MASS_G_INLET)**0.5)*(MASS_G_INLET+((1-MASS_G_INLET)*P_g(IJK)/(461.5*T_g(IJK)*RO_s(M))))
-
-                OPEN(976431, File = "fracsum_check")   !Output file to check sum of gas and particle fractions
                 DO K = BC_K_B(L), BC_K_T(L)
                      DO J = BC_J_S(L), BC_J_N(L)
                         DO I = BC_I_W(L), BC_I_E(L)
                          IF (.NOT.IS_ON_myPE_plus2layers(I,J,K)) CYCLE
                            IJK = FUNIJK(I,J,K)
-                               DO M = 1,MMAX
-                                       ! Write(976431,*)'K',K
-                                       ! Write(976431,*),'J',J
-                                       ! Write(976431,*),'I',I
-                                  VOL_G_INLET=BC_EP_g(L)*(MAX_GAS-MIN_GAS)*abs(sin(2.*3.14*FREQUENCY*TIME))+MIN_GAS
-                                        !Write(976431,*)'VOL_G_INLET',VOL_G_INLET
+
+                               IF (((REAL(I)-REAL(IMAX+2)/2.)**2) + ((REAL(K)-REAL(KMAX+2)/2.)**2)<(SETRADIUS/DX(5))**2) THEN
+                                 DO M = 1,MMAX
+                                   IF (PULSED==.TRUE.) THEN
+                                    VOL_G_INLET=MIN_GAS*(1.0-MIN_GAS)*abs(sin(2.*3.14*FREQUENCY*TIME))+MIN_GAS
+                           
+                        IF (VOL_G_INLET<MAX_GAS) THEN
+                          
+
                                   ROP_INLET(M)=PARTICLE_INLET_FRAC(M)*(1.-VOL_G_INLET)*RO_s(M)
-                                        !Write(976431,*)'ROP_INLET(M)',ROP_INLET(M)
-                                        !Write(976431,*)'PIF*(1-VOLG)',PARTICLE_INLET_FRAC(M)*(1.-VOL_G_INLET)
-                                        !Write(976431,*)'M',M
                                   MASS_G_INLET=(1.+((1.-VOL_G_INLET)*RO_s(M)*T_g(IJK)*461.5)/(VOL_G_INLET*P_g(IJK)))**(-1)
-                                       ! Write(976431,*)'MASS_G_INLET',MASS_G_INLET
                                   VEL_INLET=((461.5*(T_s(IJK,M)*(1.-VOL_G_INLET)+T_g(IJK)*VOL_G_INLET)/MASS_G_INLET)**0.5)*(MASS_G_INLET+((1.-MASS_G_INLET)*P_g(IJK)/(461.5*T_g(IJK)*RO_s(M))))
-                                       ! Write(976431,*),'VEL_INLET',VEL_INLET
-                               END DO
+                      
+
+VOL_INLET_G=VOL_G_INLET
+VEL_INLET_G=VEL_INLET
+ROP_INLET_P1=ROP_INLET(1)
+ROP_INLET_P2=ROP_INLET(2)
+ROP_INLET_P3=ROP_INLET(3)
+
+
+
+ ELSE
+                         VOL_G_INLET=1.0
+                         ROP_INLET(M)=0.0
+                         VEL_INLET=0.0
+                       END IF                                  
+
+                            ELSE
+                               VOL_G_INLET=BC_EP_g(2)
+                               ROP_INLET(M)=PARTICLE_INLET_FRAC(M)*(1.-VOL_G_INLET)*RO_s(M)
+                               MASS_G_INLET=(1.+((1.-VOL_G_INLET)*RO_s(M)*T_g(IJK)*461.5)/(VOL_G_INLET*P_g(IJK)))**(-1)
+                               VEL_INLET=((461.5*(T_s(IJK,M)*(1.-VOL_G_INLET)+T_g(IJK)*VOL_G_INLET)/MASS_G_INLET)**0.5)*(MASS_G_INLET+((1.-MASS_G_INLET)*P_g(IJK)/(461.5*T_g(IJK)*RO_s(M))))
+
+                      END IF
+                    END DO
+
                            SELECT CASE (TRIM(BC_PLANE(L)))
                            CASE ('W')
                               IJK2 = IM_OF(IJK)
@@ -359,6 +373,35 @@
                                   THETA_M(IJK,M)=20.0
                               END SELECT
                            END DO
+                        
+                       ELSE
+  IJK2 = JM_OF(IJK)
+
+                       U_G(IJK)=0.0
+                       V_G(IJK)=0.0
+                       W_G(IJK)=0.0
+                       U_G(IJK2)=0.0
+                       V_G(IJK2)=0.0
+                       W_G(IJK2)=0.0
+                       EP_G(IJK)=1.0
+
+
+                    DO M=1,MMAX
+                      U_S(IJK,M)=0.0
+                      V_S(IJK,M)=0.0 
+                      W_S(IJK,M)=0.0
+                      ROP_S(IJK,M)=0.0
+
+                      U_S(IJK2,M)=0.0
+                      V_S(IJK2,M)=0.0
+                      W_S(IJK2,M)=0.0
+                      ROP_S(IJK2,M)=0.0
+
+
+                    END DO
+
+END IF
+
                         END DO
                      END DO
                  END DO
@@ -443,6 +486,17 @@
 	    
          ENDIF 
       END DO 
+
+IF (myPE == PE_IO) THEN
+   write(800000,*)time, VOL_INLET_G,VEL_INLET_G
+   write(800001,*)time, ROP_INLET_P1,VEL_INLET_G
+   write(800002,*)time, ROP_INLET_P2,VEL_INLET_G
+   write(800003,*)time, ROP_INLET_P3,VEL_INLET_G
+END IF
+
+
+
+
 
       
       RETURN  
