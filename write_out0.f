@@ -117,6 +117,9 @@ Write(254698,*)'BC_TG',BC_T_g(2)
 Write(254698,*)'BC_TS1',BC_T_s(2,1)
 Write(254698,*)'BC_TS2',BC_T_s(2,2)
 Write(254698,*)'BC_TS3',BC_T_s(2,3)
+Write(254698,*)'D_S1',D_p0(1)
+Write(254698,*)'D_S2',D_p0(2)
+Write(254698,*)'D_S3',D_p0(3)
 !
 !
 !

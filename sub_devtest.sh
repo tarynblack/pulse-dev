@@ -1,6 +1,6 @@
-#PBS -N S_995_9999
-#PBS -l nodes=2:ppn=64
-#PBS -l walltime=100:00:00
+#PBS -N sub_devtest
+#PBS -l nodes=1:ppn=64
+#PBS -l walltime=1:00:00
 #PBS -q atlas-6
 #PBS -k oe
 #PBS -j oe
@@ -11,11 +11,11 @@
 RSH=/usr/bin/rsh
 ##MYMPI=/usr/local/packages/mvapich2/1.9/intel-13.2.146
 MYMPI=/usr/local/mvapich2/1.9/intel-13.2.146
-MYDIR=$HOME/data2/ProductionRuns/S_995_9999
+MYDIR=$HOME/data2/dev_testing
 EXE=$MYDIR/plume.exe
 PATH="$MYMPI/bin:$PATH"; export PATH
 
-MYPROCS=128
+MYPROCS=64
 
 cd $MYDIR
 
