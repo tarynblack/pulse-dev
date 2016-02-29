@@ -35,13 +35,13 @@ GRAVITY=9.81
 ! Equals the number of MMAX. Also, ensure that the values sum to 1.
 
 MASS_INFLUX_TIME=.TRUE.  ! Circularize the vent and keep constant ratio of particles.
-PULSED=.FALSE.	! False for steady, True for pulsing.
+PULSED=.TRUE.	! False for steady, True for pulsing.
 
 FREQUENCY=0.01
 
 
 MIN_GAS=0.995
-MAX_GAS=0.9999
+MAX_GAS=0.999
 PARTICLE_INLET_FRAC(1) = 0.24
 PARTICLE_INLET_FRAC(2) = 0.41
 PARTICLE_INLET_FRAC(3)=  0.35
@@ -205,10 +205,10 @@ BC_T_s(2,2)=1100.0
 BC_T_s(2,3)=1100.0
 
 BC_TYPE(2)= 'MASS_INFLOW'           !Specified mass inflow
-  BC_EP_g(2)              = 0.9981727         ! gas volume fraction
-  BC_ROP_s(2,1)          = 1.20163248         !PARTICLE_INLET_FRAC(1)*RO_s(1)*(1.-BC_EP_g(2)) 	! particle volume fraction * effective density
-  BC_ROP_s(2,2)          = 2.05278882         !PARTICLE_INLET_FRAC(2)*RO_s(2)*(1.-BC_EP_g(2))
-  BC_ROP_S(2,3)          = 1.24713225         !PARTICLE_INLET_FRAC(3)*RO_s(3)*(1.-BC_EP_g(2)) 
+  BC_EP_g(2)             = 1.0         ! gas volume fraction
+  BC_ROP_s(2,1)          = 0.0         !PARTICLE_INLET_FRAC(1)*RO_s(1)*(1.-BC_EP_g(2)) 	! particle volume fraction * effective density
+  BC_ROP_s(2,2)          = 0.0         !PARTICLE_INLET_FRAC(2)*RO_s(2)*(1.-BC_EP_g(2))
+  BC_ROP_S(2,3)          = 0.0         !PARTICLE_INLET_FRAC(3)*RO_s(3)*(1.-BC_EP_g(2)) 
 
 
   BC_X_g(2,1)            =  1.0                        
@@ -245,11 +245,11 @@ BC_Xw_g(2,2)=0.0
      ! 3. Exit
 
   BC_X_w(3)             =  0.0                         !top exit
-  BC_X_e(3)             =  5E3                        
+  BC_X_e(3)             =  8E3                        
   BC_Y_s(3)             =  10E3
   BC_Y_n(3)             =  10E3
   BC_Z_b(3)		=  0.0
-  BC_Z_t(3)		=  5E3
+  BC_Z_t(3)		=  8E3
 
 
   BC_TYPE(3)            =  'P_OUTFLOW'                        !specified pressure outflow
