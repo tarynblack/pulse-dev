@@ -164,10 +164,6 @@ call gather (V_S(:,1),array1,root)    !//
 call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
 if (myPE == PE_IO) WRITE(20019) array1
 
-
-
-
-
 call gather (V_S(:,2),array1,root)    !//
 call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
 if (myPE == PE_IO) WRITE(20020) array1
@@ -282,6 +278,17 @@ if (myPE==PE_IO) WRITE(20027) array1
 !IF(Nscalar==1) THEN
 ! WRITE(20024,100)Scalar(:,1)
 !END IF
+call gather (U_G,array1,root)    !//
+call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
+if (myPE == PE_IO) WRITE(200151,100) array1
+
+call gather (V_G,array1,root)    !//
+call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
+if (myPE == PE_IO) WRITE(200161,100) array1
+
+call gather (W_G,array1,root)    !//
+call MPI_Barrier(MPI_COMM_WORLD,mpierr)  !//PAR_I/O enforce barrier here
+if (myPE == PE_IO) WRITE(200381,100) array1
 
 
 ELSE IF (Write_Level==2) THEN
