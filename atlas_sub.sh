@@ -1,6 +1,6 @@
 #PBS -N atlas_sub
 #PBS -l nodes=1:ppn=64
-#PBS -l walltime=100:00:00
+#PBS -l walltime=110:00:00
 #PBS -q atlas-6
 #PBS -k oe
 #PBS -j oe
@@ -11,7 +11,7 @@
 RSH=/usr/bin/rsh
 ##MYMPI=/usr/local/packages/mvapich2/1.9/intel-13.2.146
 MYMPI=/usr/local/mvapich2/1.9/intel-13.2.146
-MYDIR=$HOME/data2/S_995_999
+MYDIR=$HOME/data2/F_10P_9955_999
 EXE=$MYDIR/plume.exe
 PATH="$MYMPI/bin:$PATH"; export PATH
 
