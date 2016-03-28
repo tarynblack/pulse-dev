@@ -37,7 +37,7 @@ GRAVITY=9.81
 MASS_INFLUX_TIME=.TRUE.  ! Circularize the vent and keep constant ratio of particles.
 PULSED=.TRUE.	! False for steady, True for pulsing.
 
-FREQUENCY=0.01
+FREQUENCY=1.0
 
 
 MIN_GAS=0.995
